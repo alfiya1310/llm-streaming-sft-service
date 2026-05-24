@@ -1,0 +1,21 @@
+model:
+  base_model: "unsloth/Phi-3-mini-4k-instruct"
+  output_dir: "./outputs/phi3-essay-lora"
+  final_quant_dir: "./outputs/phi3-essay-quantized"
+
+lora:
+  r: 16
+  lora_alpha: 32
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+training:
+  dataset: "toughdata/quora-question-answer-dataset"
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 2e-4
+  logging_steps: 10
+  max_steps: 60
+  fp16: true          # Explicitly active for the T4 GPU on Colab
